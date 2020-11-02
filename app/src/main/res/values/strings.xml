@@ -8,4 +8,6 @@
     <string name="capture">Capture</string>
     <string name="go">Go</string>
     <string name="populate_with_database">"TODO: Populate with database items"</string>
+    <string name="temp">Temperature:</string>
+    <string name="time">Time Created</string>
 </resources>

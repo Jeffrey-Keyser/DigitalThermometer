@@ -12,11 +12,11 @@ import java.util.ArrayList;
 public class DbHelper extends SQLiteOpenHelper {
 
 
-    private static final String DATABASE_NAME = "MyReadings.db";
-    private static final String READINGS_TABLE_NAME = "readings";
-    private static final String READINGS_COLUMN_ID = "id";
-    private static final String READINGS_COLUMN_TIME = "time";
-    private static final String READINGS_COLUMN_TEMP = "temp";
+    public static final String DATABASE_NAME = "MyReadings.db";
+    public static final String READINGS_TABLE_NAME = "readings";
+    public static final String READINGS_COLUMN_ID = "id";
+    public static final String READINGS_COLUMN_TIME = "time";
+    public static final String READINGS_COLUMN_TEMP = "temp";
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, 1);
