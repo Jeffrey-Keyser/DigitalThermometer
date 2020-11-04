@@ -7,19 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalthermometer.R;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
-    private final ArrayList<String> mWordList;
+    private ArrayList<Reading> mWordList;
 
     private LayoutInflater mInflater;
 
-    public WordListAdapter(Context context, ArrayList<String> wordList) {
+    public WordListAdapter(Context context, ArrayList<Reading> wordList) {
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
     }
@@ -41,9 +43,11 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             // Get the position of the item that was clicked.
             int mPosition = getLayoutPosition();
             // Use that to access the affected item in mWordList.
-            String element = mWordList.get(mPosition);
+            Reading element = mWordList.get(mPosition);
             // Change the word in the mWordList.
-            mWordList.set(mPosition, "I Clicked.. " + element);
+
+            element.temp = "I Clicked .. " + element.temp;
+            mWordList.set(mPosition, element);
             // Notify the adapter, that the data has changed so it can
             // update the RecyclerView to display the data.
             mAdapter.notifyDataSetChanged();
@@ -59,8 +63,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     @Override
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
-        String mCurrent = WordListAdapter.this.mWordList.get(position);
-        holder.wordItemView.setText(mCurrent);
+        Reading mCurrent = WordListAdapter.this.mWordList.get(position);
+        holder.wordItemView.setText(mCurrent.temp + " - " + mCurrent.time);
     }
 
     @Override
@@ -68,4 +72,12 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         return mWordList.size();
     }
 
+    public Reading getReadingAtPosition(int position) {
+        return mWordList.get(position);
+    }
+
+    void setReadings(ArrayList<Reading> readings){
+        mWordList = readings;
+        notifyDataSetChanged();
+    }
 }
