@@ -1,10 +1,14 @@
 package com.example.digitalthermometer;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
@@ -16,12 +20,16 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
     private ArrayList<Reading> mWordList;
 
+    private final Context context;
     private LayoutInflater mInflater;
 
     public WordListAdapter(Context context, ArrayList<Reading> wordList) {
+        this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
     }
@@ -51,6 +59,10 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             // Notify the adapter, that the data has changed so it can
             // update the RecyclerView to display the data.
             mAdapter.notifyDataSetChanged();
+
+            // TODO: Create popup dialog when database item is clicked
+            context.startActivity(new Intent(context, ViewReading.class));
+
         }
     }
 

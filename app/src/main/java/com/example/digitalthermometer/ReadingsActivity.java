@@ -44,7 +44,7 @@ public class ReadingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolBarLayout.setTitle(getTitle());
+        toolBarLayout.setTitle("My Readings");
 
         word = (TextView) findViewById(R.id.word);
         mRecyclerView = findViewById(R.id.recyclerview);
