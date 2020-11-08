@@ -6,7 +6,12 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -111,6 +116,42 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
         return array_list;
+    }
+
+
+    // Currently exporting data to downloads folder
+    public boolean exportDBtoCSV(Context context) {
+        File exportDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
+        Log.e("DbHelper", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+        if (!exportDir.exists()){
+            exportDir.mkdir();
+        }
+
+        File file = new File(exportDir, "myExportedReadings.csv");
+
+        try {
+            file.createNewFile();
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor curCSV = db.rawQuery("SELECT * FROM readings", null);
+            csvWriter.writeNext(curCSV.getColumnNames());
+            while(curCSV.moveToNext())
+            {
+                // Specify exporting columns here
+                String arrStr[] ={curCSV.getString(0),curCSV.getString(1), curCSV.getString(2)};
+                csvWriter.writeNext(arrStr);
+            }
+            csvWriter.close();
+            curCSV.close();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.e("DbHelper", ex.getMessage(), ex);
+            return false;
+        }
+
     }
 
 }

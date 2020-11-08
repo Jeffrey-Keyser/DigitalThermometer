@@ -37,7 +37,9 @@ public class ReadingsActivity extends AppCompatActivity {
     private WordListAdapter mAdapter;
     TextView word;
 
-    Button btn_sort;
+    private boolean sorted = false;
+
+    Button btn_sort, btn_export;
 
     private ArrayList<Reading> mydbAllReadings;
 
@@ -89,12 +91,23 @@ public class ReadingsActivity extends AppCompatActivity {
         helper.attachToRecyclerView(mRecyclerView);
 
         btn_sort = (Button) findViewById(R.id.btn_sort);
+        btn_export = (Button) findViewById(R.id.btn_export);
+
 
         btn_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAdapter.setReadings(mydb.sortReadings("time"));
+                sorted = true;
              //   mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btn_export.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mydb.exportDBtoCSV(getApplicationContext()))
+                    Toast.makeText(ReadingsActivity.this, "Successfully exported data", Toast.LENGTH_LONG).show();
             }
         });
 

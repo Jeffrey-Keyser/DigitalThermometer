@@ -56,24 +56,18 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             Reading element = mWordList.get(mPosition);
             // Change the word in the mWordList.
 
-            element.temp = "I Clicked .. " + element.temp;
-            mWordList.set(mPosition, element);
-            // Notify the adapter, that the data has changed so it can
-            // update the RecyclerView to display the data.
-            mAdapter.notifyDataSetChanged();
-
             // TODO: Create popup dialog when database item is clicked
             //context.startActivity(new Intent(context, ViewReading.class));
 
             // TODO: Throws up a random dialog right now
             AlertDialog.Builder alertDialog = new AlertDialog.Builder((Activity) view.getContext());
 
-            alertDialog.setTitle("Title");
-            alertDialog.setMessage("Body Text");
-            alertDialog.setIcon(R.drawable.ic_launcher_background);
+            alertDialog.setTitle("Id: " + element.id);
+            alertDialog.setMessage("Temp: " + element.temp + "\n" + "Time: " + element.time);
+            alertDialog.setIcon(R.drawable.thermometer);
 
             alertDialog.setPositiveButton(
-                    "Delete",
+                    "Close",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                         }

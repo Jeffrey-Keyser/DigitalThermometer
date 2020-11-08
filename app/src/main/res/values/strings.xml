@@ -11,4 +11,5 @@
     <string name="temp">Temperature:</string>
     <string name="time">Time Created</string>
     <string name="sort">Sort</string>
+    <string name="export_data">Export Data</string>
 </resources>
