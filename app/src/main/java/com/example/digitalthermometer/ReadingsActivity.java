@@ -1,5 +1,6 @@
 package com.example.digitalthermometer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -7,8 +8,10 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -30,8 +35,13 @@ public class ReadingsActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
-    TextView time, temp;
+    TextView word;
 
+    private boolean sorted = false;
+
+    Button btn_sort, btn_export;
+
+    private ArrayList<Reading> mydbAllReadings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +50,76 @@ public class ReadingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolBarLayout.setTitle(getTitle());
+        toolBarLayout.setTitle("My Readings");
 
-        time = (TextView) findViewById(R.id.time);
+        word = (TextView) findViewById(R.id.word);
         mRecyclerView = findViewById(R.id.recyclerview);
 
         mydb = new DbHelper(this);
-        ArrayList mydbAllReadings = mydb.getAllReadings();
 
-        mAdapter = new WordListAdapter(this, useDummyData());
+        createDbDummyData();
+
+        mydbAllReadings = mydb.getAllReadings();
+
+        mAdapter = new WordListAdapter(this, mydbAllReadings);
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        ItemTouchHelper helper= new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                         int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        Reading myItem = mAdapter.getReadingAtPosition(position);
+                        Toast.makeText(ReadingsActivity.this, "Deleting Reading", Toast.LENGTH_LONG).show();
+                        // Delete the word
+                        mydb.deleteReading(myItem.id);
+                        mAdapter.setReadings(mydb.getAllReadings());
+                        //mAdapter.notifyDataSetChanged();
+                    }
+
+                });
+        helper.attachToRecyclerView(mRecyclerView);
+
+        btn_sort = (Button) findViewById(R.id.btn_sort);
+        btn_export = (Button) findViewById(R.id.btn_export);
+
+
+        btn_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.setReadings(mydb.sortReadings("time"));
+                sorted = true;
+             //   mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btn_export.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mydb.exportDBtoCSV(getApplicationContext()))
+                    Toast.makeText(ReadingsActivity.this, "Successfully exported data", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
-    private ArrayList<String> useDummyData() {
-        ArrayList<String> dummyData = new ArrayList<String>();
 
-        for (int i = 0; i < 20; i++) {
-            dummyData.add("Dummy Data N: " + i);
-        }
+    private void createDbDummyData() {
 
-        return dummyData;
+        mydb.insertReading("6:03 PM 11/2/2020", "97.3");
+        mydb.insertReading("6:23 PM 11/4/2020", "99.3");
+        mydb.insertReading("7:45 PM 11/22/2020", "100.3");
+        mydb.insertReading("4:42 PM 11/4/2020", "92.3");
+
     }
 }

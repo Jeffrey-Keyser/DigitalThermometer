@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         readingsActivity = (Button) findViewById(R.id.database_activity_btn);
         thermalActivity = (Button) findViewById(R.id.capture_activity_btn);
 
-
         readingsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
