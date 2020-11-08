@@ -19,6 +19,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String READINGS_COLUMN_TEMP = "temperature";
 
     private final String DELETE_FROM_DB = "DELETE FROM readings WHERE id = ";
+    // Sorts all the columns
+    private final String SORT_DB_BY = "SELECT * FROM readings ORDER BY ";
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, 1);
@@ -85,6 +87,29 @@ public class DbHelper extends SQLiteOpenHelper {
             array_list.add(mReading);
             res.moveToNext();
         }
+
+        return array_list;
+    }
+
+    // WORKING
+    public ArrayList<Reading> sortReadings(String column) {
+        ArrayList<Reading> array_list = new ArrayList<Reading>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery(SORT_DB_BY + column, null);
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+
+            Reading mReading = new Reading();
+            mReading.temp = res.getString(res.getColumnIndex(READINGS_COLUMN_TEMP));
+            mReading.time = res.getString(res.getColumnIndex(READINGS_COLUMN_TIME));
+            mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
+
+            array_list.add(mReading);
+            res.moveToNext();
+        }
+
         return array_list;
     }
 

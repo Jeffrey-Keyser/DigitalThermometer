@@ -1,8 +1,10 @@
 package com.example.digitalthermometer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +63,24 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             mAdapter.notifyDataSetChanged();
 
             // TODO: Create popup dialog when database item is clicked
-            context.startActivity(new Intent(context, ViewReading.class));
+            //context.startActivity(new Intent(context, ViewReading.class));
 
+            // TODO: Throws up a random dialog right now
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder((Activity) view.getContext());
+
+            alertDialog.setTitle("Title");
+            alertDialog.setMessage("Body Text");
+            alertDialog.setIcon(R.drawable.ic_launcher_background);
+
+            alertDialog.setPositiveButton(
+                    "Delete",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }
+            );
+
+            alertDialog.show();
         }
     }
 

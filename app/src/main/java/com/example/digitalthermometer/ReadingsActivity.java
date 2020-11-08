@@ -1,5 +1,6 @@
 package com.example.digitalthermometer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ public class ReadingsActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
     TextView word;
+
+    Button btn_sort;
 
     private ArrayList<Reading> mydbAllReadings;
 
@@ -84,17 +88,18 @@ public class ReadingsActivity extends AppCompatActivity {
                 });
         helper.attachToRecyclerView(mRecyclerView);
 
+        btn_sort = (Button) findViewById(R.id.btn_sort);
+
+        btn_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.setReadings(mydb.sortReadings("time"));
+             //   mAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
-    private ArrayList<String> useDummyData() {
-        ArrayList<String> dummyData = new ArrayList<String>();
-
-        for (int i = 0; i < 20; i++) {
-            dummyData.add("Dummy Data N: " + i);
-        }
-
-        return dummyData;
-    }
 
     private void createDbDummyData() {
 
