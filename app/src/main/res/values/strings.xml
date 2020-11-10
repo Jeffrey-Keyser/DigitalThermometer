@@ -12,4 +12,5 @@
     <string name="time">Time Created</string>
     <string name="sort">Sort</string>
     <string name="export_data">Export Data</string>
+    <string name="add_dummy_data">Add Data</string>
 </resources>

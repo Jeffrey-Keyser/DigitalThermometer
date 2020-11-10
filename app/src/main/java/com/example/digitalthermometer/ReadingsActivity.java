@@ -1,7 +1,9 @@
 package com.example.digitalthermometer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -39,7 +41,7 @@ public class ReadingsActivity extends AppCompatActivity {
 
     private boolean sorted = false;
 
-    Button btn_sort, btn_export;
+    Button btn_sort, btn_export, btn_add_dummy_data;
 
     private ArrayList<Reading> mydbAllReadings;
 
@@ -56,8 +58,6 @@ public class ReadingsActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview);
 
         mydb = new DbHelper(this);
-
-        createDbDummyData();
 
         mydbAllReadings = mydb.getAllReadings();
 
@@ -92,7 +92,7 @@ public class ReadingsActivity extends AppCompatActivity {
 
         btn_sort = (Button) findViewById(R.id.btn_sort);
         btn_export = (Button) findViewById(R.id.btn_export);
-
+        btn_add_dummy_data = (Button) findViewById(R.id.add_dummy_data);
 
         btn_sort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,15 +111,39 @@ public class ReadingsActivity extends AppCompatActivity {
             }
         });
 
-    }
+        btn_add_dummy_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDbDummyData();
 
+                // Just recreate activity so you don't have to
+                // reenter the activity for the data to show
+                if (Build.VERSION.SDK_INT >= 11)
+                {
+                    recreate();
+                } else {
+                    Intent intent = getIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    overridePendingTransition(0, 0);
+
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+            }
+        });
+
+    }
 
     private void createDbDummyData() {
 
-        mydb.insertReading("6:03 PM 11/2/2020", "97.3");
-        mydb.insertReading("6:23 PM 11/4/2020", "99.3");
-        mydb.insertReading("7:45 PM 11/22/2020", "100.3");
-        mydb.insertReading("4:42 PM 11/4/2020", "92.3");
-
+        mydb.insertReading("1:03 PM 11/2/2020", 98.6);
+        mydb.insertReading("5:08 PM 10/4/2020", 99.3);
+        mydb.insertReading("2:58 PM 1/22/2020", 100.3);
+        mydb.insertReading("7:46 PM 12/15/2020", 98.6);
+        mydb.insertReading("9:56 PM 11/22/2020", 98.3);
+        mydb.insertReading("4:42 PM 12/4/2020", 99.8);
+        mydb.insertReading("6:15 PM 11/25/2020", 97.8);
+        mydb.insertReading("4:48 PM 11/4/2020", 98.3);
     }
 }

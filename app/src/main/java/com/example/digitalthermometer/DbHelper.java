@@ -43,7 +43,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     // WORKING
-    public boolean insertReading(String time, String temperature){
+    public boolean insertReading(String time, Double temperature){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("time", time);
@@ -85,7 +85,7 @@ public class DbHelper extends SQLiteOpenHelper {
         while(res.isAfterLast() == false){
 
             Reading mReading = new Reading();
-            mReading.temp = res.getString(res.getColumnIndex(READINGS_COLUMN_TEMP));
+            mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
             mReading.time = res.getString(res.getColumnIndex(READINGS_COLUMN_TIME));
             mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
 
@@ -107,7 +107,7 @@ public class DbHelper extends SQLiteOpenHelper {
         while(res.isAfterLast() == false){
 
             Reading mReading = new Reading();
-            mReading.temp = res.getString(res.getColumnIndex(READINGS_COLUMN_TEMP));
+            mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
             mReading.time = res.getString(res.getColumnIndex(READINGS_COLUMN_TIME));
             mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
 

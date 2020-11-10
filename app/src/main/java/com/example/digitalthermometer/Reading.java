@@ -13,7 +13,7 @@ public class Reading {
     @NonNull
     public Integer id;
 
-    public String temp;
+    public Double temp;
 
     public String time;
 
