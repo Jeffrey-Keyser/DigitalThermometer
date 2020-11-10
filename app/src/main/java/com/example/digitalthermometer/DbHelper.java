@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -86,7 +88,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
             Reading mReading = new Reading();
             mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
-            mReading.time = res.getString(res.getColumnIndex(READINGS_COLUMN_TIME));
+            try {
+                mReading.time = new SimpleDateFormat("MM/dd/yyyy").parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
 
             array_list.add(mReading);
@@ -96,7 +102,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    // WORKING
+    // TODO: Bug with sorting temperature. Some sorting doesn't seems to work properly
+    // TODO: Also expand time to include HH:mm
     public ArrayList<Reading> sortReadings(String column) {
         ArrayList<Reading> array_list = new ArrayList<Reading>();
 
@@ -108,7 +115,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
             Reading mReading = new Reading();
             mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
-            mReading.time = res.getString(res.getColumnIndex(READINGS_COLUMN_TIME));
+            try {
+                mReading.time = new SimpleDateFormat("MM/dd/yyyy").parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
 
             array_list.add(mReading);

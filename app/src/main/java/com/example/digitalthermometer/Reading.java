@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 
 @Entity(tableName = "readings")
 public class Reading {
@@ -15,7 +17,7 @@ public class Reading {
 
     public Double temp;
 
-    public String time;
+    public Date time;
 
     public Reading getReading(){
         Reading mReading = new Reading();

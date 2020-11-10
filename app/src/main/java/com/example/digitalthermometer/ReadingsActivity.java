@@ -1,6 +1,8 @@
 package com.example.digitalthermometer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
@@ -97,9 +99,19 @@ public class ReadingsActivity extends AppCompatActivity {
         btn_sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.setReadings(mydb.sortReadings("time"));
-                sorted = true;
-             //   mAdapter.notifyDataSetChanged();
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext(), R.style.columnSortList);
+                alertDialog.setTitle("Pick a column")
+                        .setItems(R.array.columnList, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String[] mColumnArray = getResources().getStringArray(R.array.columnList);
+                                mAdapter.setReadings(mydb.sortReadings(mColumnArray[which].toLowerCase()));
+                            }
+                        });
+                alertDialog.setIcon(R.drawable.sort);
+                alertDialog.show();
+
             }
         });
 
@@ -137,13 +149,13 @@ public class ReadingsActivity extends AppCompatActivity {
 
     private void createDbDummyData() {
 
-        mydb.insertReading("1:03 PM 11/2/2020", 98.6);
-        mydb.insertReading("5:08 PM 10/4/2020", 99.3);
-        mydb.insertReading("2:58 PM 1/22/2020", 100.3);
-        mydb.insertReading("7:46 PM 12/15/2020", 98.6);
-        mydb.insertReading("9:56 PM 11/22/2020", 98.3);
-        mydb.insertReading("4:42 PM 12/4/2020", 99.8);
-        mydb.insertReading("6:15 PM 11/25/2020", 97.8);
-        mydb.insertReading("4:48 PM 11/4/2020", 98.3);
+        mydb.insertReading("11/2/2020", 98.6);
+        mydb.insertReading("10/4/2020", 99.3);
+        mydb.insertReading("1/22/2020", 100.3);
+        mydb.insertReading("12/15/2020", 98.6);
+        mydb.insertReading("11/22/2020", 98.3);
+        mydb.insertReading("12/4/2020", 99.8);
+        mydb.insertReading("11/25/2020", 97.8);
+        mydb.insertReading("11/4/2020", 98.3);
     }
 }

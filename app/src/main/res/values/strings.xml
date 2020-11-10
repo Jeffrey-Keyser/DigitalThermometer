@@ -13,4 +13,5 @@
     <string name="sort">Sort</string>
     <string name="export_data">Export Data</string>
     <string name="add_dummy_data">Add Data</string>
+    <string name="pick_column">Pick a column</string>
 </resources>
