@@ -23,6 +23,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -63,7 +65,7 @@ public class ThermalActivity extends AppCompatActivity {
     private CaptureRequest mPreviewRequest;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-
+    private Button btn_capture;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -77,7 +79,14 @@ public class ThermalActivity extends AppCompatActivity {
 
         mTextureView = (TextureView) findViewById(R.id.texture);
 
+        btn_capture = (Button) findViewById(R.id.btn_capture);
 
+        btn_capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ThermalActivity.this, MapsActivity.class));
+            }
+        });
        // cameraManager = (CameraManager) getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
 
     }
