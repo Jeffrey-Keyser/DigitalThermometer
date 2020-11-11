@@ -11,28 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
-import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.digitalthermometer.R;
 
-import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
     private ArrayList<Reading> mWordList;
 
-    //private final mColor highTemp = new mColor(220, 20, 60);
     private final String highTemp = "#CD5C5C";
+    private final String lightGray = "#C0C0C0";
+    private final String darkGray = "#808080";
+    private boolean alternateColor = true;
+
     private final Context context;
     private LayoutInflater mInflater;
 
@@ -94,10 +90,31 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     @Override
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
         Reading mCurrent = WordListAdapter.this.mWordList.get(position);
-        holder.wordItemView.setText(mCurrent.temp + " - " + mCurrent.time);
+
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+
+        // TODO: Get html formatting to work
+        holder.wordItemView.setText(HtmlCompat.fromHtml("<h1>Time : </h1>", HtmlCompat.FROM_HTML_MODE_COMPACT) + df.format(mCurrent.time) +
+                "\n\n" + "Temperature : " + mCurrent.temp.toString());
+
         if (mCurrent.temp > 100) {
             holder.wordItemView.setBackgroundColor(Color.parseColor(highTemp));
             holder.itemView.setBackgroundColor(Color.parseColor(highTemp));
+        }
+        else
+        {
+            if (alternateColor) {
+                alternateColor = false;
+                holder.wordItemView.setBackgroundColor(Color.parseColor(lightGray));
+                holder.itemView.setBackgroundColor(Color.parseColor(lightGray));
+            }
+            else
+            {
+                alternateColor = true;
+                holder.wordItemView.setBackgroundColor(Color.parseColor(darkGray));
+                holder.itemView.setBackgroundColor(Color.parseColor(darkGray));
+            }
         }
     }
 
@@ -110,8 +127,9 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         return mWordList.get(position);
     }
 
-    void setReadings(ArrayList<Reading> readings){
+    void setReadings(ArrayList<Reading> readings) {
         mWordList = readings;
         notifyDataSetChanged();
     }
+
 }

@@ -5,10 +5,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="6dp"
+    android:layout_margin="@dimen/text_margin"
+    android:layout_gravity="center_horizontal"
     >
 
     <TextView
         android:id="@+id/word"
-        style="@style/word_title"></TextView>
+        android:height="@dimen/app_bar_height"
+        android:background="@drawable/border"
+        android:layout_gravity="center"
+        android:paddingBottom="@dimen/text_margin"
+        android:paddingLeft="@dimen/text_margin"
+        android:paddingRight="@dimen/text_margin"
+        android:paddingTop="@dimen/text_margin"
+        style="@style/reading"></TextView>
 
 </LinearLayout>

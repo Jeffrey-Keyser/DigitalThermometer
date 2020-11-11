@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,7 +90,8 @@ public class DbHelper extends SQLiteOpenHelper {
             Reading mReading = new Reading();
             mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
             try {
-                mReading.time = new SimpleDateFormat("MM/dd/yyyy").parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
+                DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                mReading.time = format.parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -116,7 +118,8 @@ public class DbHelper extends SQLiteOpenHelper {
             Reading mReading = new Reading();
             mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
             try {
-                mReading.time = new SimpleDateFormat("MM/dd/yyyy").parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
+                DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                mReading.time = format.parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

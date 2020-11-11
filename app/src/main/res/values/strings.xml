@@ -15,4 +15,9 @@
     <string name="add_dummy_data">Add Data</string>
     <string name="pick_column">Pick a column</string>
     <string name="title_activity_maps">Map</string>
+    <string name="readings_yellow">
+        <![CDATA[<li style="color: yellow;">
+      <font color=\'#FF8000\'>Readings on : </font>
+      </li>]]>
+    </string>
 </resources>
