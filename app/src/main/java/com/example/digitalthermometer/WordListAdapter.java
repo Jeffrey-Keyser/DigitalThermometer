@@ -17,6 +17,8 @@ import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.gms.maps.GoogleMap;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,6 +79,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             );
 
             alertDialog.show();
+
         }
     }
 

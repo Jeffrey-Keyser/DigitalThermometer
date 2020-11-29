@@ -84,7 +84,7 @@ public class ThermalActivity extends AppCompatActivity {
         btn_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ThermalActivity.this, MapsActivity.class));
+                startActivity(new Intent(ThermalActivity.this, NegativeReadingActivity.class));
             }
         });
        // cameraManager = (CameraManager) getApplicationContext().getSystemService(Context.CAMERA_SERVICE);

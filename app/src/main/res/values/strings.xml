@@ -20,4 +20,17 @@
       <font color=\'#FF8000\'>Readings on : </font>
       </li>]]>
     </string>
+    <string name="location_permission_denied">permission denied</string>
+    <string name="negative">Negative</string>
+    <string name="negativeReadingDesc">You do not have a feverish temperature.\n\n If you are still experiencing symptoms, please click the more info button</string>
+    <string name="infoButtonDesc">Redirects user to modal with more symptoms listed</string>
+    <string name="redirectHome">Home</string>
+    <string name="symptoms_dialog_title">Are you experiencing the following symptoms?</string>
+    <string name="cough">Cough</string>
+    <string name="headache">Headache</string>
+    <string name="difficulty_breathing">Difficulty Breathing</string>
+    <string name="nausea">Nausea</string>
+    <string name="loss_of_taste_smell">Loss of Taste/Smell</string>
+    <string name="sore_throat">Sore Throat</string>
+    <string name="dialog_submit">Submit</string>
 </resources>

@@ -27,8 +27,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String READINGS_COLUMN_TEMP = "temperature";
 
     private final String DELETE_FROM_DB = "DELETE FROM readings WHERE id = ";
-    // Sorts all the columns
     private final String SORT_DB_BY = "SELECT * FROM readings ORDER BY ";
+
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, 1);
@@ -104,13 +104,19 @@ public class DbHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    // TODO: Bug with sorting temperature. Some sorting doesn't seems to work properly
+    // TODO: Bug with sorting by time
     // TODO: Also expand time to include HH:mm
-    public ArrayList<Reading> sortReadings(String column) {
+    public ArrayList<Reading> sortReadings(String column, String type) {
         ArrayList<Reading> array_list = new ArrayList<Reading>();
 
+        String castQuery;
+        if (type != "Date")
+            castQuery = "cast(" + column + " as " + type + ")";
+        else
+            castQuery = "convert(datetime, time, 103) ASC";
+
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery(SORT_DB_BY + column, null);
+        Cursor res = db.rawQuery(SORT_DB_BY + castQuery, null);
         res.moveToFirst();
 
         while(res.isAfterLast() == false){

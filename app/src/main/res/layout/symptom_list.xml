@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="300dp"
+    android:background="#3E80B4"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="@string/symptoms_dialog_title"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:background="@color/colorSymptomsDialog">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cough"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cough"
+                android:theme="@style/Theme.MaterialComponents.Light"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/headache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/headache"
+                android:theme="@style/Theme.MaterialComponents.Light"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/difficulty_breathing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/difficulty_breathing"
+                android:theme="@style/Theme.MaterialComponents.Light"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/nausea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nausea"
+                android:theme="@style/Theme.MaterialComponents.Light"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/loss_of_taste_smell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loss_of_taste_smell"
+                android:theme="@style/Theme.MaterialComponents.Light"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sore_throat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sore_throat"
+                android:theme="@style/Theme.MaterialComponents.Light"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/dialog_submit"
+            android:layout_gravity="center"
+            android:textColor="@color/colorSymptomsDialog"/>
+    </LinearLayout>
+</LinearLayout>

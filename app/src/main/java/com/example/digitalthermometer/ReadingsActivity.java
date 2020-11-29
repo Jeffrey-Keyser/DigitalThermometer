@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class ReadingsActivity extends AppCompatActivity {
                         int position = viewHolder.getAdapterPosition();
                         Reading myItem = mAdapter.getReadingAtPosition(position);
                         Toast.makeText(ReadingsActivity.this, "Deleting Reading", Toast.LENGTH_LONG).show();
-                        // Delete the word
+                        // Delete the reading
                         mydb.deleteReading(myItem.id);
                         mAdapter.setReadings(mydb.getAllReadings());
                         //mAdapter.notifyDataSetChanged();
@@ -106,7 +107,8 @@ public class ReadingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String[] mColumnArray = getResources().getStringArray(R.array.columnList);
-                                mAdapter.setReadings(mydb.sortReadings(mColumnArray[which].toLowerCase()));
+                                String[] mColumnTypeArray = getResources().getStringArray(R.array.columnTypeList);
+                                mAdapter.setReadings(mydb.sortReadings(mColumnArray[which].toLowerCase(), mColumnTypeArray[which]));
                             }
                         });
                 alertDialog.setIcon(R.drawable.sort);
