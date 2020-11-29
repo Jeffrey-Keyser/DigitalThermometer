@@ -65,7 +65,7 @@ public class ThermalActivity extends AppCompatActivity {
     private CaptureRequest mPreviewRequest;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-    private Button btn_capture;
+    private Button btn_capture, btn_positive;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -80,6 +80,7 @@ public class ThermalActivity extends AppCompatActivity {
         mTextureView = (TextureView) findViewById(R.id.texture);
 
         btn_capture = (Button) findViewById(R.id.btn_capture);
+        btn_positive = (Button) findViewById(R.id.temp_btn);
 
         btn_capture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,14 @@ public class ThermalActivity extends AppCompatActivity {
                 startActivity(new Intent(ThermalActivity.this, NegativeReadingActivity.class));
             }
         });
-       // cameraManager = (CameraManager) getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
+
+        btn_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ThermalActivity.this, PositiveReadingActivity.class));
+            }
+        });
+        // cameraManager = (CameraManager) getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
 
     }
 

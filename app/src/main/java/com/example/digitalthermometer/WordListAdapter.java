@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,26 +61,11 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             Reading element = mWordList.get(mPosition);
             // Change the word in the mWordList.
 
-            // TODO: Create popup dialog when database item is clicked
-            //context.startActivity(new Intent(context, ViewReading.class));
-
-            // TODO: Throws up a random dialog right now
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder((Activity) view.getContext());
-
-            alertDialog.setTitle("Id: " + element.id);
-            alertDialog.setMessage("Temp: " + element.temp + "\n" + "Time: " + element.time);
-            alertDialog.setIcon(R.drawable.thermometer);
-
-            alertDialog.setPositiveButton(
-                    "Close",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }
-            );
-
-            alertDialog.show();
-
+            CustomDialogReading dialogReading = new CustomDialogReading((Activity) view.getContext());
+            dialogReading.mReading = new Reading();
+            dialogReading.mReading.temp = element.temp;
+            dialogReading.mReading.time = element.time;
+            dialogReading.show();
         }
     }
 

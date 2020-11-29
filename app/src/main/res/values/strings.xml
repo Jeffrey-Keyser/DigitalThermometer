@@ -23,6 +23,7 @@
     <string name="location_permission_denied">permission denied</string>
     <string name="negative">Negative</string>
     <string name="negativeReadingDesc">You do not have a feverish temperature.\n\n If you are still experiencing symptoms, please click the more info button</string>
+    <string name="positiveReadingDesc">You have a feverish temperature.\n\n Please continue to the Google Maps to find nearby testing locations</string>
     <string name="infoButtonDesc">Redirects user to modal with more symptoms listed</string>
     <string name="redirectHome">Home</string>
     <string name="symptoms_dialog_title">Are you experiencing the following symptoms?</string>
@@ -33,4 +34,7 @@
     <string name="loss_of_taste_smell">Loss of Taste/Smell</string>
     <string name="sore_throat">Sore Throat</string>
     <string name="dialog_submit">Submit</string>
+    <string name="google_maps">Google Maps</string>
+    <string name="pos">Pos</string>
+    <string name="positive">Positive</string>
 </resources>

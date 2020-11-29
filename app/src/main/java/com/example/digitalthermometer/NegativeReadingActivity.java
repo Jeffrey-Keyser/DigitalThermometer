@@ -30,6 +30,7 @@ public class NegativeReadingActivity extends AppCompatActivity {
         btn_redirect_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 startActivity(new Intent(NegativeReadingActivity.this, MainActivity.class));
             }
         });

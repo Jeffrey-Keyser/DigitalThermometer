@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorNegativeReading">#32CD32</color>
+    <color name="colorPositiveReading">#B22222</color>
     <color name="colorSymptomsDialog">#3E80B4</color>
 </resources>
