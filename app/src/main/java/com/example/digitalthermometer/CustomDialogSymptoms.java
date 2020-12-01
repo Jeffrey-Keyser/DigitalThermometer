@@ -11,10 +11,15 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.List;
+
 public class CustomDialogSymptoms extends Dialog implements android.view.View.OnClickListener {
     public Activity c;
     public Dialog d;
     public Button btn_submit;
+    private ChipGroup symptom_list;
 
     public CustomDialogSymptoms(Activity a) {
         super(a);
@@ -35,9 +40,11 @@ public class CustomDialogSymptoms extends Dialog implements android.view.View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit_btn:
+                symptom_list = (ChipGroup) findViewById(R.id.symptom_list);
+                final List<Integer> selected_symptoms = symptom_list.getCheckedChipIds();
+
+                // TODO: associate symptoms with reading
                 c.finish();
-                Intent intent = new Intent(c, MainActivity.class);
-                c.startActivity(intent);
                 break;
             default:
                 break;

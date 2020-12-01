@@ -11,6 +11,8 @@ import java.util.Date;
 @Entity(tableName = "readings")
 public class Reading {
 
+    public final String INTENT_IDENTIFIER_READING_ID = "READING_ID";
+
     @PrimaryKey
     @NonNull
     public Integer id;
@@ -26,6 +28,14 @@ public class Reading {
         mReading.time = this.time;
 
         return mReading;
+    }
+
+    public void setTemp(Double temp){
+        this.temp = temp;
+    }
+
+    public void setTime(Date time){
+        this.time = time;
     }
 
 }

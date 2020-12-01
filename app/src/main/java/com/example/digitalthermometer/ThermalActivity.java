@@ -36,11 +36,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -67,6 +71,8 @@ public class ThermalActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private Button btn_capture, btn_positive;
 
+    private DbHelper mydb;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,17 +88,41 @@ public class ThermalActivity extends AppCompatActivity {
         btn_capture = (Button) findViewById(R.id.btn_capture);
         btn_positive = (Button) findViewById(R.id.temp_btn);
 
+        mydb = new DbHelper(this);
+
         btn_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ThermalActivity.this, NegativeReadingActivity.class));
+                Random r = new Random();
+
+                // Create random reading
+                Reading randomReading = new Reading();
+                // Generate random double between 100 and 93
+                randomReading.setTemp(Double.parseDouble(String.format("%.2f", 95 + (100 - 95) * r.nextDouble())));
+                randomReading.setTime(Calendar.getInstance().getTime());
+
+                long readingId = mydb.insertReading(randomReading);
+                Intent intent = new Intent(ThermalActivity.this, NegativeReadingActivity.class);
+                intent.putExtra(randomReading.INTENT_IDENTIFIER_READING_ID, Long.toString(readingId));
+                startActivity(intent);
             }
         });
 
         btn_positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ThermalActivity.this, PositiveReadingActivity.class));
+                Random r = new Random();
+
+                // Create random reading
+                Reading randomReading = new Reading();
+                // Generate random double between 103 and 100
+                randomReading.setTemp(Double.parseDouble(String.format("%.2f" ,100 + (103 - 100) * r.nextDouble())));
+                randomReading.setTime(Calendar.getInstance().getTime());
+
+                long readingId = mydb.insertReading(randomReading);
+                Intent intent = new Intent(ThermalActivity.this, PositiveReadingActivity.class);
+                intent.putExtra(randomReading.INTENT_IDENTIFIER_READING_ID, Long.toString(readingId));
+                startActivity(intent);
             }
         });
         // cameraManager = (CameraManager) getApplicationContext().getSystemService(Context.CAMERA_SERVICE);

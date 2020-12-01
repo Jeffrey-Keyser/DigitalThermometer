@@ -46,19 +46,32 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     // WORKING
-    public boolean insertReading(String time, Double temperature){
+    public long insertReading(Reading reading){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("time", time);
-        contentValues.put("temperature", temperature);
-        db.insert("readings", null, contentValues);
-        return true;
+        DateFormat df = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+
+        contentValues.put("time", df.format(reading.time));
+        contentValues.put("temperature", reading.temp);
+        return db.insert("readings", null, contentValues);
     }
 
-    public Cursor getData(int id) {
+    public Reading getReading(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from readings where id=" + id + "", null);
-        return res;
+        res.moveToFirst();
+
+        Reading mReading = new Reading();
+        mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
+        try {
+            DateFormat format = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+            mReading.time = format.parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
+
+        return mReading;
     }
 
     public int numberOfRows() {
@@ -90,7 +103,7 @@ public class DbHelper extends SQLiteOpenHelper {
             Reading mReading = new Reading();
             mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
             try {
-                DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                DateFormat format = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
                 mReading.time = format.parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
             } catch (ParseException e) {
                 e.printStackTrace();

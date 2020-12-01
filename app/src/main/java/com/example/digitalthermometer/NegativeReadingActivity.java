@@ -2,22 +2,24 @@ package com.example.digitalthermometer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.UrlQuerySanitizer;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.List;
 
 public class NegativeReadingActivity extends AppCompatActivity {
 
     private Button btn_redirect_home;
-    private ImageButton btn_more_info;
-
+    private ImageButton add_symptoms;
+    private DbHelper mydb;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class NegativeReadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_negative_reading);
 
         btn_redirect_home = (Button) findViewById(R.id.redirect_home_btn);
-        btn_more_info = (ImageButton) findViewById(R.id.more_info_btn);
+        add_symptoms = (ImageButton) findViewById(R.id.add_symptoms);
 
         btn_redirect_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,13 +38,22 @@ public class NegativeReadingActivity extends AppCompatActivity {
         });
 
         // Modal
-        btn_more_info.setOnClickListener(new View.OnClickListener() {
+        add_symptoms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms(NegativeReadingActivity.this);
                 dialogSymptoms.show();
             }
         });
+
+        mydb = new DbHelper(this);
+
+        Reading negativeReading = new Reading();
+        String readingId = getIntent().getStringExtra(negativeReading.INTENT_IDENTIFIER_READING_ID);
+        negativeReading = mydb.getReading(Integer.parseInt(readingId));
+
+        title = (TextView) findViewById(R.id.negative_reading_title);
+        title.setText(Double.toString(negativeReading.temp));
 
     }
 }

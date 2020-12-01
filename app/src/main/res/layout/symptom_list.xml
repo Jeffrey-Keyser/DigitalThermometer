@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#3E80B4"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_title"
@@ -31,44 +32,51 @@
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:id="@+id/symptom_list">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/cough"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cough"
-                android:theme="@style/Theme.MaterialComponents.Light"/>
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:checkable="true"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/headache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/headache"
-                android:theme="@style/Theme.MaterialComponents.Light"/>
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:checkable="true"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/difficulty_breathing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/difficulty_breathing"
-                android:theme="@style/Theme.MaterialComponents.Light"/>
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:checkable="true"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/nausea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/nausea"
-                android:theme="@style/Theme.MaterialComponents.Light"/>
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:checkable="true"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/loss_of_taste_smell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/loss_of_taste_smell"
-                android:theme="@style/Theme.MaterialComponents.Light"/>
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:checkable="true"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/sore_throat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sore_throat"
-                android:theme="@style/Theme.MaterialComponents.Light"/>
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:checkable="true"/>
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -81,5 +89,6 @@
             android:text="@string/dialog_submit"
             android:layout_gravity="center"
             android:textColor="@color/colorSymptomsDialog"/>
+
     </LinearLayout>
 </LinearLayout>

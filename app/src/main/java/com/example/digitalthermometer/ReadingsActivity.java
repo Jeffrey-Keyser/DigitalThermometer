@@ -151,6 +151,7 @@ public class ReadingsActivity extends AppCompatActivity {
 
     private void createDbDummyData() {
 
+        /*
         mydb.insertReading("11/2/2020", 98.6);
         mydb.insertReading("10/4/2020", 99.3);
         mydb.insertReading("1/22/2020", 100.3);
@@ -159,5 +160,7 @@ public class ReadingsActivity extends AppCompatActivity {
         mydb.insertReading("12/4/2020", 99.8);
         mydb.insertReading("11/25/2020", 97.8);
         mydb.insertReading("11/4/2020", 98.3);
+        */
+
     }
 }

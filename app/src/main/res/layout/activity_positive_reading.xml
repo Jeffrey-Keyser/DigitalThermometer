@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPositiveReading"
     tools:context=".NegativeReadingActivity">
 
     <TextView
-        android:id="@+id/negative_reading_title"
+        android:id="@+id/positive_reading_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/positive"
-        android:textColor="@color/colorPositiveReading"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="64sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +28,7 @@
         android:layout_marginTop="128dp"
         android:text="@string/positiveReadingDesc"
         android:textSize="32sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

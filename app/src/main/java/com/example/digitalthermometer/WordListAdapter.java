@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
     private ArrayList<Reading> mWordList;
 
+    // TODO: Port colors to res.values
     private final String highTemp = "#CD5C5C";
     private final String lightGray = "#C0C0C0";
     private final String darkGray = "#808080";
@@ -80,8 +81,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
         Reading mCurrent = WordListAdapter.this.mWordList.get(position);
 
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-
+        DateFormat df = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
 
         // TODO: Get html formatting to work
         holder.wordItemView.setText(HtmlCompat.fromHtml("<h1>Time : </h1>", HtmlCompat.FROM_HTML_MODE_COMPACT) + df.format(mCurrent.time) +

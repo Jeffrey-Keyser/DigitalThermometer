@@ -22,7 +22,7 @@
     </string>
     <string name="location_permission_denied">permission denied</string>
     <string name="negative">Negative</string>
-    <string name="negativeReadingDesc">You do not have a feverish temperature.\n\n If you are still experiencing symptoms, please click the more info button</string>
+    <string name="negativeReadingDesc">You do not have a feverish temperature.\n\n If you are experiencing other symptoms, please click the button below</string>
     <string name="positiveReadingDesc">You have a feverish temperature.\n\n Please continue to the Google Maps to find nearby testing locations</string>
     <string name="infoButtonDesc">Redirects user to modal with more symptoms listed</string>
     <string name="redirectHome">Home</string>
