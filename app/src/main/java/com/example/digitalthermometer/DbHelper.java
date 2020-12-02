@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,10 +26,13 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String READINGS_COLUMN_ID = "id";
     public static final String READINGS_COLUMN_TIME = "time";
     public static final String READINGS_COLUMN_TEMP = "temperature";
+    public static final String READINGS_COLUMN_SYMPTOMS = "symptoms";
+
+    private final String TIME_FORMAT = "HH:mm:ss MM/dd/yyyy";
+
 
     private final String DELETE_FROM_DB = "DELETE FROM readings WHERE id = ";
     private final String SORT_DB_BY = "SELECT * FROM readings ORDER BY ";
-
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, 1);
@@ -36,7 +40,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table readings" + "(id integer primary key, time text, temperature text)");
+        db.execSQL("create table readings" + "(id integer primary key, time text, temperature text, symptoms text)");
     }
 
     @Override
@@ -53,6 +57,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
         contentValues.put("time", df.format(reading.time));
         contentValues.put("temperature", reading.temp);
+        contentValues.put("symptoms", reading.symptoms);
+
         return db.insert("readings", null, contentValues);
     }
 
@@ -64,7 +70,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Reading mReading = new Reading();
         mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
         try {
-            DateFormat format = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+            DateFormat format = new SimpleDateFormat(TIME_FORMAT);
             mReading.time = format.parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -78,6 +84,19 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, READINGS_TABLE_NAME);
         return numRows;
+    }
+
+    public int updateReading(Reading newData, String oldId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        DateFormat df = new SimpleDateFormat(TIME_FORMAT);
+
+        cv.put(READINGS_COLUMN_TEMP, String.valueOf(newData.temp));
+        cv.put(READINGS_COLUMN_TIME, String.valueOf(df.format(newData.time)));
+        cv.put(READINGS_COLUMN_SYMPTOMS, String.valueOf(newData.symptoms));
+
+        return db.update(READINGS_TABLE_NAME, cv, "id = ?", new String[]{oldId});
     }
 
     // WORKING
@@ -109,6 +128,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
             mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
+            mReading.symptoms = res.getString(res.getColumnIndex(READINGS_COLUMN_SYMPTOMS));
 
             array_list.add(mReading);
             res.moveToNext();
@@ -143,6 +163,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
             mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
+            mReading.symptoms = res.getString(res.getColumnIndex(READINGS_COLUMN_SYMPTOMS));
 
             array_list.add(mReading);
             res.moveToNext();

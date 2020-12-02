@@ -17,7 +17,7 @@ public class CustomDialogReading extends Dialog implements android.view.View.OnC
     public Activity c;
     public Dialog d;
 
-    private TextView temp, time;
+    private TextView temp, time, symptoms;
 
     public CustomDialogReading(Activity a) {
         super(a);
@@ -31,9 +31,11 @@ public class CustomDialogReading extends Dialog implements android.view.View.OnC
 
         temp = (TextView) findViewById(R.id.view_reading_temp);
         time = (TextView) findViewById(R.id.view_reading_time);
+        symptoms = (TextView) findViewById(R.id.view_reading_symptoms);
 
         temp.setText(mReading.temp.toString());
         time.setText(mReading.time.toString());
+        symptoms.setText(mReading.symptoms);
     }
 
     @Override

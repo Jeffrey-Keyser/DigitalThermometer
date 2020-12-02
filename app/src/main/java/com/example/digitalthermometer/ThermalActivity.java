@@ -100,6 +100,7 @@ public class ThermalActivity extends AppCompatActivity {
                 // Generate random double between 100 and 93
                 randomReading.setTemp(Double.parseDouble(String.format("%.2f", 95 + (100 - 95) * r.nextDouble())));
                 randomReading.setTime(Calendar.getInstance().getTime());
+                randomReading.setSymptoms("None");
 
                 long readingId = mydb.insertReading(randomReading);
                 Intent intent = new Intent(ThermalActivity.this, NegativeReadingActivity.class);
@@ -118,6 +119,7 @@ public class ThermalActivity extends AppCompatActivity {
                 // Generate random double between 103 and 100
                 randomReading.setTemp(Double.parseDouble(String.format("%.2f" ,100 + (103 - 100) * r.nextDouble())));
                 randomReading.setTime(Calendar.getInstance().getTime());
+                randomReading.setSymptoms("None");
 
                 long readingId = mydb.insertReading(randomReading);
                 Intent intent = new Intent(ThermalActivity.this, PositiveReadingActivity.class);

@@ -19,7 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,6 +70,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             dialogReading.mReading = new Reading();
             dialogReading.mReading.temp = element.temp;
             dialogReading.mReading.time = element.time;
+            dialogReading.mReading.symptoms = element.symptoms;
+
             dialogReading.show();
         }
     }
@@ -83,9 +89,12 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
         DateFormat df = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
 
+        ArrayList<String> output = formatSymptoms(mCurrent.symptoms);
+
         // TODO: Get html formatting to work
-        holder.wordItemView.setText(HtmlCompat.fromHtml("<h1>Time : </h1>", HtmlCompat.FROM_HTML_MODE_COMPACT) + df.format(mCurrent.time) +
-                "\n\n" + "Temperature : " + mCurrent.temp.toString());
+        holder.wordItemView.setText(HtmlCompat.fromHtml("", HtmlCompat.FROM_HTML_MODE_COMPACT) + df.format(mCurrent.time)
+                + "\n\n" + mCurrent.temp.toString()
+                + "\n\n" + output.get(0));
 
         if (mCurrent.temp > 100) {
             holder.wordItemView.setBackgroundColor(Color.parseColor(highTemp));
@@ -119,6 +128,26 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     void setReadings(ArrayList<Reading> readings) {
         mWordList = readings;
         notifyDataSetChanged();
+    }
+
+    // From serialized to strings
+    public ArrayList<String> formatSymptoms(String symptoms) {
+
+        if (symptoms.equals("None")) {
+            ArrayList<String> noSymptoms = new ArrayList<String>();
+            noSymptoms.add("None");
+            return noSymptoms;
+        }
+        Type type = new TypeToken<ArrayList<Symptoms>>() {}.getType();
+        Gson gson = new Gson();
+        ArrayList<Symptoms> outputArray = gson.fromJson(symptoms, type);
+        ArrayList<String> output = new ArrayList<String>();
+
+        for (Symptoms symptom: outputArray) {
+            output.add(symptom.name());
+        }
+
+        return output;
     }
 
 }

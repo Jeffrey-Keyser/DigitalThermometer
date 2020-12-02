@@ -21,11 +21,14 @@ public class Reading {
 
     public Date time;
 
+    public String symptoms;
+
     public Reading getReading(){
         Reading mReading = new Reading();
         mReading.id = this.id;
         mReading.temp = this.temp;
         mReading.time = this.time;
+        mReading.symptoms = this.symptoms;
 
         return mReading;
     }
@@ -38,4 +41,5 @@ public class Reading {
         this.time = time;
     }
 
+    public void setSymptoms(String symptoms) {this.symptoms = symptoms; }
 }

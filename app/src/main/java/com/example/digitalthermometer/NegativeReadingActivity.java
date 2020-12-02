@@ -29,6 +29,16 @@ public class NegativeReadingActivity extends AppCompatActivity {
         btn_redirect_home = (Button) findViewById(R.id.redirect_home_btn);
         add_symptoms = (ImageButton) findViewById(R.id.add_symptoms);
 
+
+        mydb = new DbHelper(this);
+
+        Reading negativeReading = new Reading();
+        final String readingId = getIntent().getStringExtra(negativeReading.INTENT_IDENTIFIER_READING_ID);
+        negativeReading = mydb.getReading(Integer.parseInt(readingId));
+
+        title = (TextView) findViewById(R.id.negative_reading_title);
+        title.setText(Double.toString(negativeReading.temp));
+
         btn_redirect_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,19 +51,12 @@ public class NegativeReadingActivity extends AppCompatActivity {
         add_symptoms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms(NegativeReadingActivity.this);
+                CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms(NegativeReadingActivity.this, Integer.parseInt(readingId));
                 dialogSymptoms.show();
             }
         });
 
-        mydb = new DbHelper(this);
 
-        Reading negativeReading = new Reading();
-        String readingId = getIntent().getStringExtra(negativeReading.INTENT_IDENTIFIER_READING_ID);
-        negativeReading = mydb.getReading(Integer.parseInt(readingId));
-
-        title = (TextView) findViewById(R.id.negative_reading_title);
-        title.setText(Double.toString(negativeReading.temp));
 
     }
 }
