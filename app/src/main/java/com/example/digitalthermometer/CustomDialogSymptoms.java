@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.solver.widgets.Helper;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -25,12 +26,15 @@ public class CustomDialogSymptoms extends Dialog implements android.view.View.On
     public Button btn_submit;
     private ChipGroup symptom_list;
     private Integer readingId;
+    private ArrayList<Symptoms> selectedSymptoms;
     private DbHelper mydb;
+    private FormatHelpers formatHelpers = new FormatHelpers();
 
-    public CustomDialogSymptoms(Activity a, Integer readingId) {
+    public CustomDialogSymptoms(Activity a, Integer readingId, String selectedSymptoms) {
         super(a);
         this.c = a;
         this.readingId = readingId;
+        this.selectedSymptoms = formatHelpers.fromSerializedSymptomsToSymptoms(selectedSymptoms);
         mydb = new DbHelper(c);
     }
 
@@ -41,6 +45,19 @@ public class CustomDialogSymptoms extends Dialog implements android.view.View.On
         setContentView(R.layout.symptom_list);
         btn_submit = (Button) findViewById(R.id.submit_btn);
         btn_submit.setOnClickListener(this);
+
+        symptom_list = (ChipGroup) findViewById(R.id.symptom_list);
+
+        // Check for already selected symptoms
+        // Have them be already checked
+        for (int i = 0; i < selectedSymptoms.size(); i++) {
+            Symptoms enumSymptom = selectedSymptoms.get(i);
+            if (enumSymptom == Symptoms.None)
+                continue;
+
+            Chip symptom = (Chip) symptom_list.getChildAt(enumSymptom.ordinal());
+            symptom.setChecked(true);
+        }
 
     }
 
@@ -66,9 +83,6 @@ public class CustomDialogSymptoms extends Dialog implements android.view.View.On
                 mReading.setSymptoms(inputString);
 
                 mydb.updateReading(mReading, String.valueOf(readingId));
-
-                // TODO: associate symptoms with reading
-                c.finish();
                 break;
             default:
                 break;

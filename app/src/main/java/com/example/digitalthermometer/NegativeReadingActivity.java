@@ -1,5 +1,6 @@
 package com.example.digitalthermometer;
 
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +21,7 @@ public class NegativeReadingActivity extends AppCompatActivity {
     private ImageButton add_symptoms;
     private DbHelper mydb;
     private TextView title;
+    private Reading negativeReading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class NegativeReadingActivity extends AppCompatActivity {
 
         mydb = new DbHelper(this);
 
-        Reading negativeReading = new Reading();
+        negativeReading = new Reading();
         final String readingId = getIntent().getStringExtra(negativeReading.INTENT_IDENTIFIER_READING_ID);
         negativeReading = mydb.getReading(Integer.parseInt(readingId));
 
@@ -51,7 +53,10 @@ public class NegativeReadingActivity extends AppCompatActivity {
         add_symptoms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms(NegativeReadingActivity.this, Integer.parseInt(readingId));
+                // Fetch reading again as it might've been updated
+                Reading updatedReading = new Reading();
+                updatedReading = mydb.getReading(Integer.parseInt(readingId));
+                CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms(NegativeReadingActivity.this, Integer.parseInt(readingId), updatedReading.symptoms);
                 dialogSymptoms.show();
             }
         });

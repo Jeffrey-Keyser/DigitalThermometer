@@ -2,4 +2,9 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="time_image_height">48dp</dimen>
+    <dimen name="sort_image_height">48dp</dimen>
+    <dimen name="sort_image_text_size">36sp</dimen>
+    <dimen name="export_image_height">36dp</dimen>
+    <dimen name="export_image_text_size">36sp</dimen>
 </resources>

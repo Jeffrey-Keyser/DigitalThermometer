@@ -37,4 +37,6 @@
     <string name="google_maps">Google Maps</string>
     <string name="pos">Pos</string>
     <string name="positive">Positive</string>
+    <string name="sorts_readings">Sorts readings</string>
+    <string name="export">Export</string>
 </resources>

@@ -15,5 +15,4 @@
         android:padding="@dimen/text_margin"
         ></androidx.recyclerview.widget.RecyclerView>
 
-
 </androidx.core.widget.NestedScrollView>

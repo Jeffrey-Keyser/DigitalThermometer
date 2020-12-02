@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,7 @@ public class ReadingsActivity extends AppCompatActivity {
 
     private boolean sorted = false;
 
-    Button btn_sort, btn_export, btn_add_dummy_data;
+    ImageButton btn_sort, btn_export;
 
     private ArrayList<Reading> mydbAllReadings;
 
@@ -93,9 +95,8 @@ public class ReadingsActivity extends AppCompatActivity {
                 });
         helper.attachToRecyclerView(mRecyclerView);
 
-        btn_sort = (Button) findViewById(R.id.btn_sort);
-        btn_export = (Button) findViewById(R.id.btn_export);
-        btn_add_dummy_data = (Button) findViewById(R.id.add_dummy_data);
+        btn_sort = (ImageButton) findViewById(R.id.btn_sort);
+        btn_export = (ImageButton) findViewById(R.id.btn_export);
 
         btn_sort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,43 +125,5 @@ public class ReadingsActivity extends AppCompatActivity {
                     Toast.makeText(ReadingsActivity.this, "Successfully exported data", Toast.LENGTH_LONG).show();
             }
         });
-
-        btn_add_dummy_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDbDummyData();
-
-                // Just recreate activity so you don't have to
-                // reenter the activity for the data to show
-                if (Build.VERSION.SDK_INT >= 11)
-                {
-                    recreate();
-                } else {
-                    Intent intent = getIntent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    finish();
-                    overridePendingTransition(0, 0);
-
-                    startActivity(intent);
-                    overridePendingTransition(0, 0);
-                }
-            }
-        });
-
-    }
-
-    private void createDbDummyData() {
-
-        /*
-        mydb.insertReading("11/2/2020", 98.6);
-        mydb.insertReading("10/4/2020", 99.3);
-        mydb.insertReading("1/22/2020", 100.3);
-        mydb.insertReading("12/15/2020", 98.6);
-        mydb.insertReading("11/22/2020", 98.3);
-        mydb.insertReading("12/4/2020", 99.8);
-        mydb.insertReading("11/25/2020", 97.8);
-        mydb.insertReading("11/4/2020", 98.3);
-        */
-
     }
 }

@@ -39,6 +39,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     private final Context context;
     private LayoutInflater mInflater;
+    private FormatHelpers formatHelpers = new FormatHelpers();
 
     public WordListAdapter(Context context, ArrayList<Reading> wordList) {
         this.context = context;
@@ -89,7 +90,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
         DateFormat df = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
 
-        ArrayList<String> output = formatSymptoms(mCurrent.symptoms);
+        ArrayList<String> output = formatHelpers.fromSerializedSymptomsToStrings(mCurrent.symptoms);
 
         // TODO: Get html formatting to work
         holder.wordItemView.setText(HtmlCompat.fromHtml("", HtmlCompat.FROM_HTML_MODE_COMPACT) + df.format(mCurrent.time)
@@ -129,25 +130,4 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         mWordList = readings;
         notifyDataSetChanged();
     }
-
-    // From serialized to strings
-    public ArrayList<String> formatSymptoms(String symptoms) {
-
-        if (symptoms.equals("None")) {
-            ArrayList<String> noSymptoms = new ArrayList<String>();
-            noSymptoms.add("None");
-            return noSymptoms;
-        }
-        Type type = new TypeToken<ArrayList<Symptoms>>() {}.getType();
-        Gson gson = new Gson();
-        ArrayList<Symptoms> outputArray = gson.fromJson(symptoms, type);
-        ArrayList<String> output = new ArrayList<String>();
-
-        for (Symptoms symptom: outputArray) {
-            output.add(symptom.name());
-        }
-
-        return output;
-    }
-
 }

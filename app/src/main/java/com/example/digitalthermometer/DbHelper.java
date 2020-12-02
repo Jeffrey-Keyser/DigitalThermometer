@@ -53,7 +53,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public long insertReading(Reading reading){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        DateFormat df = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat(TIME_FORMAT);
 
         contentValues.put("time", df.format(reading.time));
         contentValues.put("temperature", reading.temp);
@@ -76,6 +76,7 @@ public class DbHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         mReading.id = res.getInt(res.getColumnIndex(READINGS_COLUMN_ID));
+        mReading.symptoms = res.getString(res.getColumnIndex(READINGS_COLUMN_SYMPTOMS));
 
         return mReading;
     }
@@ -137,8 +138,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    // TODO: Bug with sorting by time
-    // TODO: Also expand time to include HH:mm
     public ArrayList<Reading> sortReadings(String column, String type) {
         ArrayList<Reading> array_list = new ArrayList<Reading>();
 
@@ -157,7 +156,7 @@ public class DbHelper extends SQLiteOpenHelper {
             Reading mReading = new Reading();
             mReading.temp = res.getDouble(res.getColumnIndex(READINGS_COLUMN_TEMP));
             try {
-                DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                DateFormat format = new SimpleDateFormat(TIME_FORMAT);
                 mReading.time = format.parse(res.getString(res.getColumnIndex(READINGS_COLUMN_TIME)));
             } catch (ParseException e) {
                 e.printStackTrace();

@@ -30,25 +30,69 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <Button
+            <LinearLayout
+                android:id="@+id/linearlayout_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_sort"
-                android:text="@string/sort"></Button>
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/add_dummy_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/add_dummy_data"></Button>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/sort_image_height"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
+                    android:background="?attr/colorPrimary"
+                    android:id="@+id/btn_sort"
+                    android:src="@drawable/sort"
+                    android:text="@string/sort"
+                    android:contentDescription="@string/sorts_readings" />
 
-            <Button
-                android:id="@+id/btn_export"
+                <TextView
+                    android:id="@+id/sort_text"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:textSize="@dimen/sort_image_text_size"
+                    android:textColor="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sort" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayout_export"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/export_data"></Button>
+                android:orientation="horizontal"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:id="@+id/export_text"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:textSize="@dimen/export_image_text_size"
+                    android:textColor="@color/white"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/export" />
+
+                <ImageButton
+                    android:id="@+id/btn_export"
+                    android:src="@drawable/export"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/export_image_height"
+                    android:background="?attr/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:text="@string/export_data"
+                    android:contentDescription="@string/export" />
+
+            </LinearLayout>
 
 
 

@@ -6,9 +6,11 @@ public enum Symptoms {
     Difficulty_Breathing,
     Nausea,
     Loss_of_Taste_Smell,
-    Sore_Throat;
+    Sore_Throat,
     // Order matters here as there are dependencies on location..
     // If adding more, append here
+    None;
+
 
 
     public static Symptoms fromInteger(int x){
@@ -25,7 +27,8 @@ public enum Symptoms {
                 return Symptoms.Loss_of_Taste_Smell;
             case 5:
                 return Symptoms.Sore_Throat;
+            default:
+                return Symptoms.None;
         }
-        return null;
     }
 }
