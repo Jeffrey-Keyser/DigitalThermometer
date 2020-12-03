@@ -39,4 +39,8 @@
     <string name="positive">Positive</string>
     <string name="sorts_readings">Sorts readings</string>
     <string name="export">Export</string>
+    <string name="visual_image">Visual Image</string>
+    <string name="thermal_image">Thermal Image</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
