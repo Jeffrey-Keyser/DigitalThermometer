@@ -48,7 +48,7 @@ public class CustomDialogSymptoms extends Dialog implements android.view.View.On
 
         symptom_list = (ChipGroup) findViewById(R.id.symptom_list);
 
-        // Check for already selected symptoms
+        // Check for previously selected symptoms
         // Have them be already checked
         for (int i = 0; i < selectedSymptoms.size(); i++) {
             Symptoms enumSymptom = selectedSymptoms.get(i);

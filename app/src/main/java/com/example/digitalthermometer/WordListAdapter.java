@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -80,19 +81,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
         @Override
         public void onClick(View view) {
-            // Get the position of the item that was clicked.
-            int mPosition = getLayoutPosition();
-            // Use that to access the affected item in mWordList.
-            Reading element = mWordList.get(mPosition);
-            // Change the word in the mWordList.
-
-            CustomDialogReading dialogReading = new CustomDialogReading((Activity) view.getContext());
-            dialogReading.mReading = new Reading();
-            dialogReading.mReading.temp = element.temp;
-            dialogReading.mReading.time = element.time;
-            dialogReading.mReading.symptoms = element.symptoms;
-
-            dialogReading.show();
+            // Ported over to more info button
         }
     }
 
@@ -104,8 +93,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
-        Reading mCurrent = WordListAdapter.this.mWordList.get(position);
+    public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, final int position) {
+        final Reading mCurrent = WordListAdapter.this.mWordList.get(position);
 
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -138,8 +127,40 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             holder.export.setBackgroundColor(color);
         }
 
+        holder.moreInfo.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Reading updatedReading = new Reading();
+                updatedReading = mydb.getReading(mCurrent.id);
 
+                CustomDialogReading dialogReading = new CustomDialogReading((Activity) v.getContext());
+                dialogReading.mReading = new Reading();
+                dialogReading.mReading.temp = updatedReading.temp;
+                dialogReading.mReading.time = updatedReading.time;
+                dialogReading.mReading.symptoms = updatedReading.symptoms;
 
+                dialogReading.show();
+            }
+        });
+
+        holder.export.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        holder.edit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Reading updatedReading = new Reading();
+                updatedReading = mydb.getReading(mCurrent.id);
+                CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms((Activity) v.getContext(), mCurrent.id, updatedReading.symptoms);
+                dialogSymptoms.show();
+            }
+        });
     }
 
     @Override
