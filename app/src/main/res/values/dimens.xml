@@ -20,10 +20,12 @@
     <dimen name="recycle_view_item_title_text_size">24sp</dimen>
     <dimen name="recycle_view_item_body_text_size">24sp</dimen>
 
+    <dimen name="reading_dialog_time_text_size">18sp</dimen>
+    <dimen name="reading_dialog_symptoms_text_size">18sp</dimen>
 
     <dimen name="time_image_height">48dp</dimen>
     <dimen name="sort_image_height">48dp</dimen>
     <dimen name="sort_image_text_size">36sp</dimen>
-    <dimen name="export_image_height">36dp</dimen>
+    <dimen name="export_image_height">40dp</dimen>
     <dimen name="export_image_text_size">36sp</dimen>
 </resources>

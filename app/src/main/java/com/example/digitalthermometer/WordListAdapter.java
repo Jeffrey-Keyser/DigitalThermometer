@@ -148,6 +148,8 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         {
             @Override
             public void onClick(View v) {
+                if(mydb.exportDBtoCSV(mCurrent.id))
+                    Toast.makeText(v.getContext(), "Successfully exported data", Toast.LENGTH_LONG).show();
             }
         });
 

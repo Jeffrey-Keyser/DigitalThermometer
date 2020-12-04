@@ -11,6 +11,8 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresPermission;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
@@ -173,25 +175,33 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     // Currently exporting data to downloads folder
-    public boolean exportDBtoCSV(Context context) {
+    // If -1 get export all readings
+    public boolean exportDBtoCSV(int id) {
         File exportDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
         Log.e("DbHelper", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
         if (!exportDir.exists()){
             exportDir.mkdir();
         }
 
-        File file = new File(exportDir, "myExportedReadings.csv");
+        File file = new File(exportDir, "myReadings.csv");
 
         try {
             file.createNewFile();
             CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor curCSV = db.rawQuery("SELECT * FROM readings", null);
+            Cursor curCSV;
+            if (id == -1)
+                curCSV = db.rawQuery("SELECT * FROM readings", null);
+            else
+                curCSV = db.rawQuery("SELECT * FROM readings WHERE id=" + id + "", null);
             csvWriter.writeNext(curCSV.getColumnNames());
+
+            DateFormat df = new SimpleDateFormat(TIME_FORMAT);
+
             while(curCSV.moveToNext())
             {
                 // Specify exporting columns here
-                String arrStr[] ={curCSV.getString(0),curCSV.getString(1), curCSV.getString(2)};
+                String arrStr[] ={curCSV.getString(0), String.valueOf(df.parse(curCSV.getString(1))), curCSV.getString(2), curCSV.getString(3)};
                 csvWriter.writeNext(arrStr);
             }
             csvWriter.close();

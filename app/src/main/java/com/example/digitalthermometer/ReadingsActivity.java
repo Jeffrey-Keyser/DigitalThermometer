@@ -121,7 +121,7 @@ public class ReadingsActivity extends AppCompatActivity {
         btn_export.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mydb.exportDBtoCSV(getApplicationContext()))
+                if(mydb.exportDBtoCSV(-1))
                     Toast.makeText(ReadingsActivity.this, "Successfully exported data", Toast.LENGTH_LONG).show();
             }
         });
