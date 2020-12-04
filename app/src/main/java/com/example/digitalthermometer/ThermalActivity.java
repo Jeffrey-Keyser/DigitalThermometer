@@ -21,6 +21,7 @@ public class ThermalActivity extends AppCompatActivity {
     private ImageView visualImageView;
     private ImageView thermalImageView;
 
+
     private ThermalCamera camera;
     private MeasurementEngine engine;
     private boolean engineBusy = false;
@@ -43,6 +44,7 @@ public class ThermalActivity extends AppCompatActivity {
         paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
+
 
         // Measurement Engine and Face Area
         engine = new MeasurementEngine();

@@ -68,6 +68,7 @@ public class CustomDialogSymptoms extends Dialog implements android.view.View.On
                 symptom_list = (ChipGroup) findViewById(R.id.symptom_list);
                 final List<Integer> selected_symptoms = symptom_list.getCheckedChipIds();
 
+                // Converts a Chips tag to Symptom's enum number
                 ArrayList<Symptoms> inputArray = new ArrayList<Symptoms>();
                 for (int id : selected_symptoms) {
                     Chip symptom = (Chip) findViewById(id);

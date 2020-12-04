@@ -12,7 +12,6 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/text_margin"
-        ></androidx.recyclerview.widget.RecyclerView>
+        android:padding="@dimen/text_margin" />
 
 </androidx.core.widget.NestedScrollView>

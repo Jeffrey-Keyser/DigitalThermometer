@@ -38,7 +38,10 @@
     <string name="pos">Pos</string>
     <string name="positive">Positive</string>
     <string name="sorts_readings">Sorts readings</string>
-    <string name="export">Export</string>
+    <string name="export">Export All</string>
+    <string name="more_info">More info</string>
+    <string name="export_alone">Export alone</string>
+    <string name="edit">Edit</string>
     <string name="visual_image">Visual Image</string>
     <string name="thermal_image">Thermal Image</string>
     <string name="start">Start</string>
