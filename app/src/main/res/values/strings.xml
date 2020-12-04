@@ -42,4 +42,8 @@
     <string name="more_info">More info</string>
     <string name="export_alone">Export alone</string>
     <string name="edit">Edit</string>
+    <string name="visual_image">Visual Image</string>
+    <string name="thermal_image">Thermal Image</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
