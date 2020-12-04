@@ -70,8 +70,8 @@ public class ThermalActivity extends AppCompatActivity {
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private Button btn_capture, btn_positive;
-
     private DbHelper mydb;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -98,7 +98,7 @@ public class ThermalActivity extends AppCompatActivity {
                 // Create random reading
                 Reading randomReading = new Reading();
                 // Generate random double between 100 and 93
-                randomReading.setTemp(Double.parseDouble(String.format("%.2f", 95 + (100 - 95) * r.nextDouble())));
+                randomReading.setTemp(Double.parseDouble(String.format("%.2f", 96 + (99 - 96) * r.nextDouble())));
                 randomReading.setTime(Calendar.getInstance().getTime());
                 randomReading.setSymptoms("None");
 
@@ -117,7 +117,7 @@ public class ThermalActivity extends AppCompatActivity {
                 // Create random reading
                 Reading randomReading = new Reading();
                 // Generate random double between 103 and 100
-                randomReading.setTemp(Double.parseDouble(String.format("%.2f" ,100 + (103 - 100) * r.nextDouble())));
+                randomReading.setTemp(Double.parseDouble(String.format("%.2f" ,99 + (103 - 99) * r.nextDouble())));
                 randomReading.setTime(Calendar.getInstance().getTime());
                 randomReading.setSymptoms("None");
 

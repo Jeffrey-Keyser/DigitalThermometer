@@ -7,17 +7,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.util.DBUtil;
 
 
+import com.google.android.gms.common.util.Hex;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,30 +38,42 @@ import java.util.ArrayList;
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
     private ArrayList<Reading> mWordList;
 
-    // TODO: Port colors to res.values
-    private final String highTemp = "#CD5C5C";
-    private final String lightGray = "#C0C0C0";
-    private final String darkGray = "#808080";
+    private final String highTempDatabaseEntry = "#CD5C5C";
+    private final String lightGrayDatabaseEntry = "#C0C0C0";
+    private final String darkGrayDatabaseEntry = "#808080";
     private boolean alternateColor = true;
 
     private final Context context;
     private LayoutInflater mInflater;
     private FormatHelpers formatHelpers = new FormatHelpers();
+    private DbHelper mydb;
 
     public WordListAdapter(Context context, ArrayList<Reading> wordList) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mWordList = wordList;
+        mydb = new DbHelper(context);
     }
 
 
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView wordItemView;
+        public final TextView wordItemViewTitle;
+
+        public final ImageButton moreInfo;
+        public final ImageButton export;
+        public final ImageButton edit;
+
         final WordListAdapter mAdapter;
 
         public WordViewHolder(View itemView, WordListAdapter adapter) {
             super(itemView);
-            wordItemView = itemView.findViewById(R.id.word);
+            wordItemView = itemView.findViewById(R.id.bodyEntry);
+            wordItemViewTitle = itemView.findViewById(R.id.titleEntry);
+            moreInfo = itemView.findViewById(R.id.moreInfoEntry);
+            export = itemView.findViewById(R.id.exportEntry);
+            edit = itemView.findViewById(R.id.editEntry);
+
             this.mAdapter = adapter;
             itemView.setOnClickListener(this);
         }
@@ -88,33 +107,39 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     public void onBindViewHolder(@NonNull WordListAdapter.WordViewHolder holder, int position) {
         Reading mCurrent = WordListAdapter.this.mWordList.get(position);
 
-        DateFormat df = new SimpleDateFormat("HH:mm:ss MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
         ArrayList<String> output = formatHelpers.fromSerializedSymptomsToStrings(mCurrent.symptoms);
 
-        // TODO: Get html formatting to work
-        holder.wordItemView.setText(HtmlCompat.fromHtml("", HtmlCompat.FROM_HTML_MODE_COMPACT) + df.format(mCurrent.time)
-                + "\n\n" + mCurrent.temp.toString()
-                + "\n\n" + output.get(0));
+        String dynamicColor = dynamicColorFromTemperature(mCurrent.temp);
+        int textColor = Color.parseColor(dynamicColor);
 
-        if (mCurrent.temp > 100) {
-            holder.wordItemView.setBackgroundColor(Color.parseColor(highTemp));
-            holder.itemView.setBackgroundColor(Color.parseColor(highTemp));
+        // <font color=\"" + textColor + "\">" + mCurrent.temp.toString() + "°</font>"));
+        holder.wordItemViewTitle.setText(Html.fromHtml("Reading taken on <b>" + df.format(mCurrent.time) + "</b>"));
+        holder.wordItemView.setText(Html.fromHtml("Had temperature <b>" + mCurrent.temp.toString() + "°</b>"));
+
+        if (alternateColor) {
+            alternateColor = false;
+            int color = Color.parseColor(lightGrayDatabaseEntry);
+            holder.wordItemView.setBackgroundColor(color);
+            holder.itemView.setBackgroundColor(color);
+            holder.moreInfo.setBackgroundColor(color);
+            holder.edit.setBackgroundColor(color);
+            holder.export.setBackgroundColor(color);
         }
         else
         {
-            if (alternateColor) {
-                alternateColor = false;
-                holder.wordItemView.setBackgroundColor(Color.parseColor(lightGray));
-                holder.itemView.setBackgroundColor(Color.parseColor(lightGray));
-            }
-            else
-            {
-                alternateColor = true;
-                holder.wordItemView.setBackgroundColor(Color.parseColor(darkGray));
-                holder.itemView.setBackgroundColor(Color.parseColor(darkGray));
-            }
+            alternateColor = true;
+            int color = Color.parseColor(darkGrayDatabaseEntry);
+            holder.wordItemView.setBackgroundColor(color);
+            holder.itemView.setBackgroundColor(color);
+            holder.moreInfo.setBackgroundColor(color);
+            holder.edit.setBackgroundColor(color);
+            holder.export.setBackgroundColor(color);
         }
+
+
+
     }
 
     @Override
@@ -130,4 +155,53 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         mWordList = readings;
         notifyDataSetChanged();
     }
+
+    // From Google.. normal body temperature is 98.6
+    // As temperature deviates from that, change color accordingly.
+    private String dynamicColorFromTemperature(double temp){
+        double normalBodyTemp = 98.6;
+
+        // 98% temperatures lie in this range
+        double deviation = 4;
+
+        double differenceBetweenReadingAndNormal = Math.abs(temp - normalBodyTemp);
+
+        double percentage = differenceBetweenReadingAndNormal / deviation;
+
+        double redPercentage = percentage;
+        double greenPercentage = percentage;
+
+        // Square percentage that is less to make colors more distinctly red/green
+        if (percentage < .5) {
+            redPercentage = Math.sqrt(redPercentage); // More green
+            greenPercentage = greenPercentage * greenPercentage;
+        }
+        else {
+            redPercentage = Math.sqrt(redPercentage);
+            greenPercentage = greenPercentage * greenPercentage; // More red
+        }
+
+        int red = (int) Math.round(255 * redPercentage);
+        int green = (int) Math.round(255 * (1 - greenPercentage));
+
+        String hexRed;
+        String hexGreen;
+        // Have to do check for prepending 0s
+        if (red <= 50)
+            hexRed = "33";
+        else
+            hexRed = Integer.toHexString(red);
+
+        if (green <= 50)
+            hexGreen = "33";
+        else
+            hexGreen = Integer.toHexString(green);
+
+        String hexColor = "#" + hexRed + hexGreen + "33";
+
+        return hexColor;
+    }
+
+
+
 }
