@@ -18,8 +18,8 @@
     <string name="foo"><![CDATA[Foo Bar <a href="foo?id=%s">baz</a> is cool]]></string>
     <string name="location_permission_denied">permission denied</string>
     <string name="negative">Negative</string>
-    <string name="negativeReadingDesc">You do not have a feverish temperature.\n\n Add other symptoms below</string>
-    <string name="positiveReadingDesc">You have a feverish temperature.\n\n Please continue to the Google Maps or add other symptoms below</string>
+    <string name="negativeReadingDesc">You do not have a feverish temperature.\n\nAdd symptoms or go to home</string>
+    <string name="positiveReadingDesc">You have a feverish temperature.\n\nPlease continue to the Google Maps or add other symptoms below</string>
     <string name="infoButtonDesc">Redirects user to modal with more symptoms listed</string>
     <string name="redirectHome">Home</string>
     <string name="symptoms_dialog_title">Are you experiencing any of the following symptoms?</string>

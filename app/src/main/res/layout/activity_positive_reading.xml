@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPositiveReading"
     tools:context=".NegativeReadingActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical">
+
     <TextView
         android:id="@+id/positive_reading_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+        android:layout_marginTop="48dp"
+        android:layout_gravity="center_horizontal"
         android:textStyle="bold"
-        android:textSize="64sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.083" />
+        android:textSize="64sp"/>
 
     <TextView
         android:id="@+id/positive_reading_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="75dp"
         android:text="@string/positiveReadingDesc"
-        android:textSize="32sp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.21" />
+        android:textSize="32sp"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/redirect_google_maps_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/google_maps"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/positive_reading_desc"
-        app:layout_constraintVertical_bias="0.65" />
+            <ImageButton
+                android:id="@+id/redirect_home_btn"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@color/colorPositiveReading"
+                android:contentDescription="@string/infoButtonDesc"
+                android:layout_marginEnd="24dp"
+                android:layout_gravity="start"
+                android:scaleType="fitXY"
+                android:src="@drawable/home"/>
 
-    <ImageButton
-        android:id="@+id/add_symptoms"
-        android:layout_width="119dp"
-        android:layout_height="109dp"
-        android:background="@color/colorPositiveReading"
-        android:contentDescription="@string/infoButtonDesc"
-        android:scaleType="fitXY"
-        android:src="@drawable/plus"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
-        app:layout_constraintStart_toEndOf="@+id/redirect_google_maps_btn"
-        app:layout_constraintTop_toBottomOf="@+id/positive_reading_desc"
-        app:layout_constraintVertical_bias="0.7" />
+            <ImageButton
+                android:id="@+id/redirect_google_maps_btn"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorPositiveReading"
+                android:contentDescription="@string/infoButtonDesc"
+                android:layout_marginEnd="24dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/googlemaps" />
 
-
+            <ImageButton
+                android:id="@+id/add_symptoms"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/colorPositiveReading"
+                android:contentDescription="@string/infoButtonDesc"
+                android:scaleType="fitXY"
+                android:src="@drawable/plus" />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

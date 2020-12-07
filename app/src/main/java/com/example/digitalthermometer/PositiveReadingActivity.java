@@ -17,7 +17,8 @@ import java.util.List;
 
 public class PositiveReadingActivity extends AppCompatActivity {
 
-    private Button btn_google_maps;
+    private ImageButton btn_redirect_home;
+    private ImageButton btn_google_maps;
     private DbHelper mydb;
     private ImageButton add_symptoms;
 
@@ -27,9 +28,9 @@ public class PositiveReadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_positive_reading);
 
-        btn_google_maps = (Button) findViewById(R.id.redirect_google_maps_btn);
+        btn_google_maps = (ImageButton) findViewById(R.id.redirect_google_maps_btn);
         add_symptoms = (ImageButton) findViewById(R.id.add_symptoms);
-
+        btn_redirect_home = (ImageButton) findViewById(R.id.redirect_home_btn);
 
         mydb = new DbHelper(this);
 
@@ -56,6 +57,14 @@ public class PositiveReadingActivity extends AppCompatActivity {
                 updatedReading = mydb.getReading(Integer.parseInt(readingId));
                 CustomDialogSymptoms dialogSymptoms = new CustomDialogSymptoms(PositiveReadingActivity.this, Integer.parseInt(readingId), updatedReading.symptoms);
                 dialogSymptoms.show();
+            }
+        });
+
+        btn_redirect_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(PositiveReadingActivity.this, MainActivity.class));
             }
         });
 
