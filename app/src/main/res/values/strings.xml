@@ -15,11 +15,7 @@
     <string name="add_dummy_data">Add Data</string>
     <string name="pick_column">Pick a column</string>
     <string name="title_activity_maps">Map</string>
-    <string name="readings_yellow">
-        <![CDATA[<li style="color: yellow;">
-      <font color=\'#FF8000\'>Readings on : </font>
-      </li>]]>
-    </string>
+    <string name="foo"><![CDATA[Foo Bar <a href="foo?id=%s">baz</a> is cool]]></string>
     <string name="location_permission_denied">permission denied</string>
     <string name="negative">Negative</string>
     <string name="negativeReadingDesc">You do not have a feverish temperature.\n\n Add other symptoms below</string>
@@ -46,4 +42,6 @@
     <string name="thermal_image">Thermal Image</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="swipeLeft">Swipe <b>left</b> to access the database!</string>
+    <string name="swipeRight">Swipe <b>right</b> to get a new capture! </string>
 </resources>
