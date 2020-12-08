@@ -59,7 +59,7 @@ public class ReadingsActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         toolBarLayout.setTitle("My Readings");
 
-        word = (TextView) findViewById(R.id.word);
+        word = (TextView) findViewById(R.id.bodyEntry);
         mRecyclerView = findViewById(R.id.recyclerview);
 
         mydb = new DbHelper(this);
@@ -121,7 +121,7 @@ public class ReadingsActivity extends AppCompatActivity {
         btn_export.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mydb.exportDBtoCSV(getApplicationContext()))
+                if(mydb.exportDBtoCSV(-1))
                     Toast.makeText(ReadingsActivity.this, "Successfully exported data", Toast.LENGTH_LONG).show();
             }
         });

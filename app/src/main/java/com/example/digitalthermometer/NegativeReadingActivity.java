@@ -17,7 +17,7 @@ import java.util.List;
 
 public class NegativeReadingActivity extends AppCompatActivity {
 
-    private Button btn_redirect_home;
+    private ImageButton btn_redirect_home;
     private ImageButton add_symptoms;
     private DbHelper mydb;
     private TextView title;
@@ -28,7 +28,7 @@ public class NegativeReadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_negative_reading);
 
-        btn_redirect_home = (Button) findViewById(R.id.redirect_home_btn);
+        btn_redirect_home = (ImageButton) findViewById(R.id.redirect_home_btn);
         add_symptoms = (ImageButton) findViewById(R.id.add_symptoms);
 
 
