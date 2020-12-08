@@ -11,14 +11,18 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:contentDescription="@string/visual_image" />
-    <!-- -->
 
-    <ImageView
-        android:id="@+id/thermal_image_view"
+    <TextView
+        android:id="@+id/status"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:contentDescription="@string/thermal_image" />
+        android:layout_height="wrap_content"
+        android:text="@string/status_init" />
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/temp_init" />
 
     <Button
         android:layout_width="match_parent"
@@ -31,5 +35,17 @@
         android:layout_height="wrap_content"
         android:text="@string/stop"
         android:onClick="stop" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:onClick="save" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:onClick="cancel" />
 
 </LinearLayout>

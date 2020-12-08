@@ -24,6 +24,7 @@ import com.flir.thermalsdk.live.discovery.DiscoveryFactory;
 import com.flir.thermalsdk.live.streaming.ThermalImageStreamListener;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class ThermalCamera {
     private final CameraListener videoListener;
@@ -41,7 +42,11 @@ public class ThermalCamera {
         context = appContext;
 
         // Initialize Thermal SDK
-        ThermalSdkAndroid.init(appContext);
+        try {
+            ThermalSdkAndroid.init(appContext);
+        } catch (Exception e) {
+            // if invoked multiple times for same context, an error occurs
+        }
 
         // Set Video Stream Listener
         videoListener = appListener;
@@ -60,6 +65,9 @@ public class ThermalCamera {
                 // do nothing
             }
         };
+
+        // Camera
+        camera = new Camera();
     }
 
     public void findHardware() {
@@ -84,25 +92,16 @@ public class ThermalCamera {
                 @Override
                 public void permissionGranted(@NonNull Identity identity) {
                     try {
-                        camera = new Camera();
-
                         camera.connect(hardwareIdentity, errorCode -> {
                             videoRunning = false;
-                            camera = null;
-                            hardwareConnected = false;
                         }, new ConnectParameters());
 
-                        camera.subscribeStream(() -> camera.withImage(thermalImage -> {
-                            thermalImage.getFusion().setFusionMode(FusionMode.VISUAL_ONLY);
-                            Bitmap visual = BitmapAndroid.createBitmap(thermalImage.getImage()).getBitMap();
-                            thermalImage.getFusion().setFusionMode(FusionMode.THERMAL_ONLY);
-                            Bitmap thermal = BitmapAndroid.createBitmap(thermalImage.getImage()).getBitMap();
-                            videoListener.receive(visual, thermal);
+                        camera.subscribeStream(() -> camera.withImage(thermalData -> {
+                            videoListener.receive(thermalData);
                         }));
 
                         videoRunning = true;
                     } catch(IOException e) {
-                        camera = null;
                         videoRunning = false;
                     }
                 }
@@ -132,6 +131,5 @@ public class ThermalCamera {
         camera.disconnect();
 
         videoRunning = false;
-        camera = null;
     }
 }

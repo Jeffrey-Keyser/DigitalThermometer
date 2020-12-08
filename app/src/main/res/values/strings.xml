@@ -41,6 +41,10 @@
     <string name="export">Export</string>
     <string name="visual_image">Visual Image</string>
     <string name="thermal_image">Thermal Image</string>
-    <string name="start">Start</string>
-    <string name="stop">Stop</string>
+    <string name="start">Find Camera/Start Measurement</string>
+    <string name="stop">Stop Measurement</string>
+    <string name="cancel">Cancel Measurement</string>
+    <string name="save">Save Measurement</string>
+    <string name="status_init">Status: Camera Disconnected</string>
+    <string name="temp_init">Temp: -</string>
 </resources>
