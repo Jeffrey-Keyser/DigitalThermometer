@@ -49,4 +49,7 @@
     <string name="temp_init">Temp: -</string>
     <string name="swipeLeft">Swipe <b>left</b> to access the database!</string>
     <string name="swipeRight">Swipe <b>right</b> to get a new capture! </string>
+    <string name="more_info">More Info</string>
+    <string name="export_alone">Export Alone</string>
+    <string name="edit">Edit</string>
 </resources>
