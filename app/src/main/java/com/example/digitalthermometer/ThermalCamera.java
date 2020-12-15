@@ -5,30 +5,25 @@ package com.example.digitalthermometer;
  */
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 
 import com.flir.thermalsdk.ErrorCode;
 import com.flir.thermalsdk.androidsdk.ThermalSdkAndroid;
-import com.flir.thermalsdk.androidsdk.image.BitmapAndroid;
 import com.flir.thermalsdk.androidsdk.live.connectivity.UsbPermissionHandler;
-import com.flir.thermalsdk.image.fusion.FusionMode;
 import com.flir.thermalsdk.live.Camera;
 import com.flir.thermalsdk.live.CommunicationInterface;
 import com.flir.thermalsdk.live.ConnectParameters;
 import com.flir.thermalsdk.live.Identity;
-import com.flir.thermalsdk.live.connectivity.ConnectionStatusListener;
 import com.flir.thermalsdk.live.discovery.DiscoveryEventListener;
 import com.flir.thermalsdk.live.discovery.DiscoveryFactory;
-import com.flir.thermalsdk.live.streaming.ThermalImageStreamListener;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 public class ThermalCamera {
     private final CameraListener videoListener;
     private final DiscoveryEventListener findHardwareListener;
+    private final CameraConnectionListener cameraConnectionListener;
     private Identity hardwareIdentity;
     private Camera camera;
 
@@ -37,7 +32,7 @@ public class ThermalCamera {
     private boolean hardwareConnected = false;
     private boolean videoRunning = false;
 
-    public ThermalCamera(Context appContext, CameraListener appListener) {
+    public ThermalCamera(Context appContext, CameraListener appListener, CameraConnectionListener connectionListener) {
         // Save Context
         context = appContext;
 
@@ -51,6 +46,9 @@ public class ThermalCamera {
         // Set Video Stream Listener
         videoListener = appListener;
 
+        // Set CameraConnection Listener
+        cameraConnectionListener = connectionListener;
+
         // Set Find Hardware Listener
         findHardwareListener = new DiscoveryEventListener() {
             @Override
@@ -58,6 +56,7 @@ public class ThermalCamera {
                 hardwareIdentity = identity;
                 DiscoveryFactory.getInstance().stop(CommunicationInterface.USB);
                 hardwareConnected = true;
+                cameraConnectionListener.hardwareConnected();
             }
 
             @Override
@@ -85,6 +84,7 @@ public class ThermalCamera {
 
         if(!hardwareConnected) {
             findHardware();
+            return;
         }
 
         if (UsbPermissionHandler.isFlirOne(hardwareIdentity)) {
@@ -94,15 +94,15 @@ public class ThermalCamera {
                     try {
                         camera.connect(hardwareIdentity, errorCode -> {
                             videoRunning = false;
+                            cameraConnectionListener.notStreaming();
                         }, new ConnectParameters());
 
-                        camera.subscribeStream(() -> camera.withImage(thermalData -> {
-                            videoListener.receive(thermalData);
-                        }));
+                        camera.subscribeStream(() -> camera.withImage(videoListener::receive));
 
                         videoRunning = true;
+                        cameraConnectionListener.streaming();
                     } catch(IOException e) {
-                        videoRunning = false;
+                        // never happens
                     }
                 }
 
@@ -120,7 +120,7 @@ public class ThermalCamera {
     }
 
     public void stop() {
-        if (!videoRunning || camera == null) {
+        if (camera == null) {
             return;
         }
 
@@ -128,8 +128,8 @@ public class ThermalCamera {
             camera.unsubscribeAllStreams();
         }
 
-        camera.disconnect();
-
         videoRunning = false;
+        cameraConnectionListener.notStreaming();
+        camera.disconnect();
     }
 }

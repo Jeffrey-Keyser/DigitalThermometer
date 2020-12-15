@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -54,11 +53,33 @@ public class ThermalActivity extends AppCompatActivity {
         };
 
         // Start Camera
-        camera = new ThermalCamera(getApplicationContext(), listener);
+        camera = new ThermalCamera(getApplicationContext(), listener, new CameraConnectionListener() {
+            @Override
+            public void hardwareConnected() {
+                runOnUiThread(() -> {
+                    statusView.setText(R.string.camera_disconnected);
+                });
+            }
+
+            @Override
+            public void streaming() {
+                runOnUiThread(() -> {
+                    statusView.setText(R.string.camera_connected);
+                });
+            }
+
+            @Override
+            public void notStreaming() {
+                runOnUiThread(() -> {
+                    statusView.setText(R.string.camera_disconnected);
+                });
+            }
+        });
 
         // Start Image Processing
         running = true;
         faceDetectorBusy = false;
+        avgTemp = -1.0;
         imageProcessingThread = new Thread(() -> {
             while(running) {
                 if (!snapshots.isEmpty()) {
@@ -66,7 +87,7 @@ public class ThermalActivity extends AppCompatActivity {
                     if (!faceDetectorBusy) {
                         faceDetectorBusy = true;
                         if(snapshot.findFace(faceDetector)) {
-                            avgTemp = snapshot.avgTemp();
+                            avgTemp = snapshot.faceTemp();
                             String text = "Temp: " + avgTemp;
                             runOnUiThread(() -> tempView.setText(text));
                         }
@@ -105,36 +126,30 @@ public class ThermalActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
-        /*Reading reading = new Reading();
-        reading.setTemp(Double.parseDouble(String.format(java.util.Locale.US, "%.2f", avgTemp)));
-        reading.setTime(Calendar.getInstance().getTime());
-        reading.setSymptoms("None");
+        if(avgTemp != -1) {
+            Reading reading = new Reading();
+            reading.setTemp(Double.parseDouble(String.format(java.util.Locale.US, "%.2f", avgTemp)));
+            reading.setTime(Calendar.getInstance().getTime());
+            reading.setSymptoms("None");
 
-        long readingId = mydb.insertReading(reading);
-        Intent tempIntent;
+            long readingId = mydb.insertReading(reading);
+            Intent tempIntent;
 
-        if(avgTemp >= 100.0) {
-            tempIntent = new Intent(ThermalActivity.this, PositiveReadingActivity.class);
-        } else {
-            tempIntent = new Intent(ThermalActivity.this, NegativeReadingActivity.class);
+            if(avgTemp >= 100.0) {
+                tempIntent = new Intent(ThermalActivity.this, PositiveReadingActivity.class);
+            } else {
+                tempIntent = new Intent(ThermalActivity.this, NegativeReadingActivity.class);
+            }
+
+            tempIntent.putExtra(reading.INTENT_IDENTIFIER_READING_ID, Long.toString(readingId));
+            startActivity(tempIntent);
         }
-
-        tempIntent.putExtra(reading.INTENT_IDENTIFIER_READING_ID, Long.toString(readingId));
-        startActivity(tempIntent);*/
     }
 
     public void cancel(View view) {
         stop(view);
         Intent mainActivity = new Intent(ThermalActivity.this, MainActivity.class);
         startActivity(mainActivity);
-    }
-
-    /**
-     * Shows a {@link Toast} on the UI thread.
-     * @param text The message to show
-     */
-    private void showToast(final String text) {
-        runOnUiThread(() -> Toast.makeText(ThermalActivity.this, text, Toast.LENGTH_LONG).show());
     }
 
 }

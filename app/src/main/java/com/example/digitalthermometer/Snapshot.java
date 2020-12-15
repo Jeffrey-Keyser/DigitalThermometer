@@ -72,6 +72,7 @@ public class Snapshot {
             thermalFace.top = (int) (vScale * (float) visualFace.top);
             thermalFace.right = (int) (hScale * (float) visualFace.right);
             thermalFace.bottom = (int) (vScale * (float) visualFace.bottom);
+            (new Canvas(thermalImage)).drawRect(thermalFace, paint);
 
             return true;
         } else {
@@ -79,20 +80,21 @@ public class Snapshot {
         }
     }
 
-    // Returns average temperature in degrees Fahrenheit.
-    // Averages over face if specified.
-    // Averages over entire thermal image if not specified.
-    public double avgTemp() {
+    // Returns temperature of the face.
+    // Current implementation: max temp in box
+    public double faceTemp() {
         try {
-            double sum = 0;
+            double measuredTemp = 0;
+            int width = thermalFace.width();
+            int height = thermalFace.height();
 
-            for(int x = 0; x < thermalFace.width(); x++) {
-                for(int y = 0; y < thermalFace.height(); y++) {
-                    sum += temps[thermalFace.left + x + (thermalFace.top + y) * thermalImage.getWidth()];
+            for(int x = 0; x < width; x++) {
+                for(int y = 0; y < height; y++) {
+                    measuredTemp = Math.max(measuredTemp, temps[thermalFace.left + x + (thermalFace.top + y) * thermalImage.getWidth()]);
                 }
             }
 
-            return sum / ((double) (thermalFace.width() * thermalFace.height()));
+            return measuredTemp;
         } catch(Exception e) {
             return -1.0;
         }
